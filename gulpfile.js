@@ -8,6 +8,7 @@ var browserSync = require('browser-sync');
 var buffer = require('vinyl-buffer');
 var chalk = require('chalk');
 var duration = require('gulp-duration');
+var fs = require("fs")
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var minifycss = require('gulp-minify-css');
@@ -15,13 +16,18 @@ var notifier = require('node-notifier');
 var notify = require('gulp-notify');
 var react = require('react');
 var rename = require('gulp-rename');
+var s3 = require("gulp-s3");
 var sass = require('gulp-sass');
 var source = require('vinyl-source-stream');
 
 var reload = browserSync.reload;
+var aws = JSON.parse(fs.readFileSync('./aws.json'));
 
 // Configuration
 var config = {
+  build: {
+    srcPath: './build/**'
+  },
   css: {
     srcPath: './src/css/*.scss',
     watchPath: './src/css/**/*',
@@ -140,4 +146,9 @@ gulp.task('html', function() {
   gulp.src(config.html.srcPath)
     .pipe(gulp.dest(config.html.buildPath))
     .pipe(reload({ stream: true }));
+});
+
+gulp.task('deploy', function() {
+  gulp.src(config.build.srcPath)
+      .pipe(s3(aws));
 });
