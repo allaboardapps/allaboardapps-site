@@ -1,5 +1,6 @@
 .DS_Store
-aws.json
+aws.staging.json
+aws.production.json
 /.cache
 /.sass-cache
 /build

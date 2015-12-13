@@ -1,0 +1,6 @@
+{
+  "key": "paste-key-here",
+  "secret": "paste-secret-here",
+  "bucket": "paste-bucket-name-here",
+  "region": "paste-region-code-here"
+}

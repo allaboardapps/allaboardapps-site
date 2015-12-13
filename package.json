@@ -24,6 +24,7 @@
     "gulp-s3": "^0.3.0",
     "gulp-sass": "^2.1.0",
     "gulp-util": "^3.0.7",
+    "minimist": "^1.2.0",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "vinyl-buffer": "^1.0.0",

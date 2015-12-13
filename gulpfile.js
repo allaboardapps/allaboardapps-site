@@ -12,6 +12,7 @@ var fs = require("fs")
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var minifycss = require('gulp-minify-css');
+var minimist = require('minimist');
 var notifier = require('node-notifier');
 var notify = require('gulp-notify');
 var react = require('react');
@@ -21,7 +22,8 @@ var sass = require('gulp-sass');
 var source = require('vinyl-source-stream');
 
 var reload = browserSync.reload;
-var aws = JSON.parse(fs.readFileSync('./aws.json'));
+var awsStaging = JSON.parse(fs.readFileSync('./aws.staging.json'));
+var awsProduction = JSON.parse(fs.readFileSync('./aws.production.json'));
 
 // Configuration
 var config = {
@@ -68,7 +70,7 @@ function mapError(err) {
       + ': ' + chalk.blue(err.description));
   } else {
     // Browserify error..
-    browserSync.notify("Browserify Error!");
+    browserSync.notify('Browserify Error!');
     gutil.log(chalk.red(err.name)
       + ': '
       + chalk.yellow(err.message));
@@ -92,10 +94,7 @@ function bundle(bundler) {
 
 // Default task for Gulp
 gulp.task('default', ['html', 'images', 'fonts', 'css', 'js', 'serve', 'watch'], function() {
-  notifier.notify({
-    "subtitle": "Dev Env",
-    "message": "Development site launched",
-  });
+  notifier.notify({ 'subtitle': 'Build Status', 'message': 'Application launched in Development' });
 });
 
 gulp.task('serve', function() {
@@ -149,6 +148,22 @@ gulp.task('html', function() {
 });
 
 gulp.task('deploy', function() {
-  gulp.src(config.build.srcPath)
-      .pipe(s3(aws));
+  var option, i = process.argv.indexOf('--env');
+  if (i > -1) {
+    option = process.argv[i + 1];
+  }
+
+  if (option === 'staging') {
+    gulp.src(config.build.srcPath)
+      .pipe(s3(awsStaging));
+      notifier.notify({ 'subtitle': 'Deployment Status', 'message': 'App deployed to Staging' });
+  } else if (option === 'production') {
+    gulp.src(config.build.srcPath)
+      .pipe(s3(awsProduction));
+      notifier.notify({ 'subtitle': 'Deployment Status', 'message': 'App deployed to Production' });
+  } else {
+    message = 'ERROR: Incorrect env flag provided. Use \'--env production\' or \'--env staging\'';
+    console.log(message);
+    notifier.notify({ 'subtitle': 'Deployment Status', 'message': 'ERROR: Incorrect env flag provided. Use \'--env production\' or \'--env staging\'' });
+  }
 });
