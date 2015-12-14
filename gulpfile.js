@@ -2,11 +2,13 @@
 
 // Import modules
 var autoprefixer = require('gulp-autoprefixer');
+var awspublish = require('gulp-awspublish');
 var babelify = require('babelify');
 var browserify = require('browserify');
 var browserSync = require('browser-sync');
 var buffer = require('vinyl-buffer');
 var chalk = require('chalk');
+var cloudfront = require('gulp-cloudfront');
 var duration = require('gulp-duration');
 var fs = require("fs")
 var gulp = require('gulp');
@@ -17,6 +19,7 @@ var notifier = require('node-notifier');
 var notify = require('gulp-notify');
 var react = require('react');
 var rename = require('gulp-rename');
+var RevAll = require('gulp-rev-all');
 var s3 = require("gulp-s3");
 var sass = require('gulp-sass');
 var source = require('vinyl-source-stream');
@@ -24,6 +27,26 @@ var source = require('vinyl-source-stream');
 var reload = browserSync.reload;
 var awsStaging = JSON.parse(fs.readFileSync('./aws.staging.json'));
 var awsProduction = JSON.parse(fs.readFileSync('./aws.production.json'));
+var awsPublishStaging = JSON.parse(fs.readFileSync('./aws.publihser-staging.json'));
+var publisher = awspublish.create(awsStaging);
+var headers = { 'Cache-Control': 'max-age=315360000, no-transform, public' };
+
+gulp.task('pub', function () {
+  var revAll = new RevAll({ dontRenameFile: [/^\/favicon.ico$/g, '.html'] });
+  gulp.src('build/**')
+    .pipe(revAll.revision())
+    .pipe(gulp.dest('build/'))
+    .pipe(revAll.versionFile())
+    .pipe(gulp.dest('build/'));
+    .pipe(revAll.manifestFile())
+    .pipe(gulp.dest('build/'))
+    .pipe(awspublish.gzip())
+    .pipe(publisher.publish(headers))
+    .pipe(publisher.cache())
+    .pipe(awspublish.reporter())
+    .pipe(cloudfront(awsPublishStaging));
+
+});
 
 // Configuration
 var config = {
@@ -76,6 +99,16 @@ function mapError(err) {
       + chalk.yellow(err.message));
   }
 }
+
+var aws = {
+  "params": {
+    "Bucket": "bucket-name"
+  },
+  "accessKeyId": "AKIAI3Z7CUAFHG53DMJA",
+  "secretAccessKey": "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",
+  "distributionId": "E1SYAKGEMSK3OD",
+  "region": "us-standard",
+};
 
 // Completes the final file outputs
 function bundle(bundler) {
