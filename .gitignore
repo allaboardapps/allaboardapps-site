@@ -1,6 +1,7 @@
+.awspublish-allaboardapps-site-staging
 .DS_Store
-aws.*.json
 /.cache
 /.sass-cache
 /build
 /node_modules
+aws.*.json

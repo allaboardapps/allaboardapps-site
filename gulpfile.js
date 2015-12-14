@@ -27,31 +27,35 @@ var source = require('vinyl-source-stream');
 var reload = browserSync.reload;
 var awsStaging = JSON.parse(fs.readFileSync('./aws.staging.json'));
 var awsProduction = JSON.parse(fs.readFileSync('./aws.production.json'));
-var awsPublishStaging = JSON.parse(fs.readFileSync('./aws.publihser-staging.json'));
-var publisher = awspublish.create(awsStaging);
+
+var awsPublishStaging = JSON.parse(fs.readFileSync('./aws.publisher-staging.json'));
+var publisher = awspublish.create(awsPublishStaging);
 var headers = { 'Cache-Control': 'max-age=315360000, no-transform, public' };
 
 gulp.task('pub', function () {
   var revAll = new RevAll({ dontRenameFile: [/^\/favicon.ico$/g, '.html'] });
-  gulp.src('build/**')
+  gulp.src(config.build.srcPath)
     .pipe(revAll.revision())
-    .pipe(gulp.dest('build/'))
+    .pipe(gulp.dest(config.deploy.buildPath))
     .pipe(revAll.versionFile())
-    .pipe(gulp.dest('build/'));
+    .pipe(gulp.dest(config.deploy.buildPath))
     .pipe(revAll.manifestFile())
-    .pipe(gulp.dest('build/'))
+    .pipe(gulp.dest(config.deploy.buildPath))
     .pipe(awspublish.gzip())
     .pipe(publisher.publish(headers))
     .pipe(publisher.cache())
     .pipe(awspublish.reporter())
     .pipe(cloudfront(awsPublishStaging));
-
 });
 
 // Configuration
 var config = {
   build: {
-    srcPath: './build/**'
+    srcPath: './build/**',
+    buildPath: './build/'
+  },
+  deploy: {
+    buildPath: './deploy/'
   },
   css: {
     srcPath: './src/css/*.scss',
@@ -99,16 +103,6 @@ function mapError(err) {
       + chalk.yellow(err.message));
   }
 }
-
-var aws = {
-  "params": {
-    "Bucket": "bucket-name"
-  },
-  "accessKeyId": "AKIAI3Z7CUAFHG53DMJA",
-  "secretAccessKey": "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",
-  "distributionId": "E1SYAKGEMSK3OD",
-  "region": "us-standard",
-};
 
 // Completes the final file outputs
 function bundle(bundler) {
