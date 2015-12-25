@@ -7,7 +7,7 @@ var App = React.createClass({
     return (
       <div className="app">
         <h1>All Aboard Apps</h1>
-        Randy Burgess, Developer<br/>
+        Randy Burgess, Dev<br/>
         773-551-6808<br/>
         <a href="mailto:randy@allaboardapps.com">randy@allaboardapps.com</a><br/>
         <img src="apple-icon.png" />

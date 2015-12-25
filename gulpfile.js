@@ -2,15 +2,15 @@
 
 // Import modules
 var autoprefixer = require('gulp-autoprefixer');
-var awspublish = require('gulp-awspublish');
 var babelify = require('babelify');
 var browserify = require('browserify');
 var browserSync = require('browser-sync');
 var buffer = require('vinyl-buffer');
 var chalk = require('chalk');
-var cloudfront = require('gulp-cloudfront');
+var del = require('del');
 var duration = require('gulp-duration');
-var fs = require("fs")
+var fs = require('fs')
+var git = require('gulp-git');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var minifycss = require('gulp-minify-css');
@@ -19,70 +19,50 @@ var notifier = require('node-notifier');
 var notify = require('gulp-notify');
 var react = require('react');
 var rename = require('gulp-rename');
-var RevAll = require('gulp-rev-all');
-var s3 = require("gulp-s3");
 var sass = require('gulp-sass');
 var source = require('vinyl-source-stream');
 
 var reload = browserSync.reload;
-var awsStaging = JSON.parse(fs.readFileSync('./aws.staging.json'));
-var awsProduction = JSON.parse(fs.readFileSync('./aws.production.json'));
-
-var awsPublishStaging = JSON.parse(fs.readFileSync('./aws.publisher-staging.json'));
-var publisher = awspublish.create(awsPublishStaging);
-var headers = { 'Cache-Control': 'max-age=315360000, no-transform, public' };
-
-gulp.task('pub', function () {
-  var revAll = new RevAll({ dontRenameFile: [/^\/favicon.ico$/g, '.html'] });
-  gulp.src(config.build.srcPath)
-    .pipe(revAll.revision())
-    .pipe(gulp.dest(config.deploy.buildPath))
-    .pipe(revAll.versionFile())
-    .pipe(gulp.dest(config.deploy.buildPath))
-    .pipe(revAll.manifestFile())
-    .pipe(gulp.dest(config.deploy.buildPath))
-    .pipe(awspublish.gzip())
-    .pipe(publisher.publish(headers))
-    .pipe(publisher.cache())
-    .pipe(awspublish.reporter())
-    .pipe(cloudfront(awsPublishStaging));
-});
+var RevAll = require('gulp-rev-all');
 
 // Configuration
 var config = {
   build: {
+    buildPath: './build/',
     srcPath: './build/**',
-    buildPath: './build/'
+    watchPath: './build/**/*',
   },
-  deploy: {
-    buildPath: './deploy/'
+  dist: {
+    buildPath: './dist/',
+    srcPath: './dist/**',
+    watchPath: './dist/**/*',
   },
   css: {
+    buildPath: './build/',
     srcPath: './src/css/*.scss',
     watchPath: './src/css/**/*',
-    buildPath: './build/'
   },
   html: {
+    buildPath: './build/',
     srcPath: './src/html/*.html',
     watchPath: './src/html/**/*',
-    buildPath: './build/'
   },
   images: {
+    buildPath: './build/',
     srcPath: './src/images/*',
     watchPath: './src/images/**/*',
-    buildPath: './build/'
   },
   js: {
+    buildFile: 'main.min.js',
+    buildPath: './build/',
     srcFile: 'main.jsx',
     srcPath: './src/js/',
     watchPath: './src/js/**/*',
-    buildFile: 'main.min.js',
-    buildPath: './build/'
   },
   fonts: {
+    buildPath: './build/',
     srcPath: './src/fonts/*.scss',
     watchPath: './src/fonts/**/*',
-    buildPath: './build/'
   }
 };
 
@@ -121,7 +101,12 @@ function bundle(bundler) {
 
 // Default task for Gulp
 gulp.task('default', ['html', 'images', 'fonts', 'css', 'js', 'serve', 'watch'], function() {
-  notifier.notify({ 'subtitle': 'Build Status', 'message': 'Application launched in Development' });
+  notifier.notify({ 'subtitle': 'Build/Launch Status', 'message': 'Application launched in Development' });
+});
+
+// Default task for Gulp
+gulp.task('build', ['html', 'images', 'fonts', 'css', 'js'], function() {
+  notifier.notify({ 'subtitle': 'Build Status', 'message': 'Application local build complete' });
 });
 
 gulp.task('serve', function() {
@@ -174,23 +159,20 @@ gulp.task('html', function() {
     .pipe(reload({ stream: true }));
 });
 
-gulp.task('deploy', function() {
-  var option, i = process.argv.indexOf('--env');
-  if (i > -1) {
-    option = process.argv[i + 1];
-  }
+gulp.task('dist', function () {
+  // delete contents of the /dist directory
+  del([config.dist.watchPath]);
 
-  if (option === 'staging') {
-    gulp.src(config.build.srcPath)
-      .pipe(s3(awsStaging));
-      notifier.notify({ 'subtitle': 'Deployment Status', 'message': 'App deployed to Staging' });
-  } else if (option === 'production') {
-    gulp.src(config.build.srcPath)
-      .pipe(s3(awsProduction));
-      notifier.notify({ 'subtitle': 'Deployment Status', 'message': 'App deployed to Production' });
-  } else {
-    message = 'ERROR: Incorrect env flag provided. Use \'--env production\' or \'--env staging\'';
-    console.log(message);
-    notifier.notify({ 'subtitle': 'Deployment Status', 'message': 'ERROR: Incorrect env flag provided. Use \'--env production\' or \'--env staging\'' });
-  }
+  // create new versions of files with new names to invalidate cache
+  var revAll = new RevAll({ dontRenameFile: [/^\/favicon.ico$/g, '.html'] });
+  gulp.src(config.build.srcPath)
+    .pipe(revAll.revision())
+    .pipe(gulp.dest(config.dist.buildPath))
+    notifier.notify({ 'subtitle': 'Revision Status', 'message': 'Application disted to Staging' });
+});
+
+gulp.task('push', function(){
+  git.push('origin', 'master', function (err) {
+    if (err) throw err;
+  });
 });

@@ -3,6 +3,6 @@
 /.cache
 /.sass-cache
 /build
-/deploy
 /node_modules
 aws.*.json
+publish.sh
