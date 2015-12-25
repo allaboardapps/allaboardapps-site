@@ -172,7 +172,10 @@ gulp.task('dist', function () {
 });
 
 gulp.task('push', function(){
-  git.push('origin', 'master', function (err) {
-    if (err) throw err;
-  });
+  // git.push('origin', 'master', function (err) {
+  //   if (err) throw err;
+  // });
+
+return gulp.src('.')
+    .pipe(git.push('origin', 'master'));
 });
