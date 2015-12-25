@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Development environment template",
   "main": "index.js",
-  "scripts": {
-    "test": "spec"
-  },
+  "scripts": {},
   "author": "Randy Burgess, wrburgess, wrburgess@gmail.com",
   "license": "MIT",
   "devDependencies": {
