@@ -9,7 +9,7 @@ var buffer = require('vinyl-buffer');
 var chalk = require('chalk');
 var del = require('del');
 var duration = require('gulp-duration');
-var fs = require('fs')
+var fs = require('fs');
 var git = require('gulp-git');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
@@ -106,7 +106,12 @@ gulp.task('default', ['html', 'images', 'fonts', 'css', 'js', 'serve', 'watch'],
 
 // Default task for Gulp
 gulp.task('build', ['html', 'images', 'fonts', 'css', 'js'], function() {
-  notifier.notify({ 'subtitle': 'Build Status', 'message': 'Application local build complete' });
+  notifier.notify({ 'subtitle': 'Build Status', 'message': 'Application build complete' });
+});
+
+// Default task for Gulp
+gulp.task('deploy', ['build', 'dist'], function() {
+  notifier.notify({ 'subtitle': 'Deploy Status', 'message': 'Application build and dist process complete' });
 });
 
 gulp.task('serve', function() {
@@ -168,14 +173,5 @@ gulp.task('dist', function () {
   gulp.src(config.build.srcPath)
     .pipe(revAll.revision())
     .pipe(gulp.dest(config.dist.buildPath))
-    notifier.notify({ 'subtitle': 'Revision Status', 'message': 'Application disted to Staging' });
-});
-
-gulp.task('push', function(){
-  // git.push('origin', 'master', function (err) {
-  //   if (err) throw err;
-  // });
-
-return gulp.src('.')
-    .pipe(git.push('origin', 'master'));
+    notifier.notify({ 'subtitle': 'Distribution Status', 'message': 'Application files revised for caching' });
 });

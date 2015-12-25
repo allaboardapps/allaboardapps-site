@@ -1,10 +1,18 @@
+machine:
+  node:
+    version:  5.1.1
+
 dependencies:
-    override:
-        - bundle install
-        - sudo pip install awscli
+  override:
+    - npm install
+    - bundle install
+    - sudo pip install awscli
+
+    cache_directories:
+    - "node_modules"
 
 deployment:
-    aws:
+  aws:
     branch: master
-        commands:
-        - /bin/bash publish.sh
+    commands:
+    - ./sh/deploy_staging.sh

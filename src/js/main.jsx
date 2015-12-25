@@ -6,7 +6,7 @@ var App = React.createClass({
   render() {
     return (
       <div className="app">
-        <h1>All Aboard Apps</h1>
+        <h1>All Aboard Apps, LLC</h1>
         Randy Burgess, Dev<br/>
         773-551-6808<br/>
         <a href="mailto:randy@allaboardapps.com">randy@allaboardapps.com</a><br/>

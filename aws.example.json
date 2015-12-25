@@ -1,9 +1,0 @@
-{
-  "params": {
-    "Bucket": "bucket-name-here"
-  },
-  "accessKeyId": "access-key-id-here",
-  "secretAccessKey": "secret-access-key-here",
-  "distributionId": "distribution-id",
-  "region": "region-code-here"
-}
