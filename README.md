@@ -12,4 +12,4 @@ randy@allaboardapps.com
 
 * [Production](https://d32s2bthsevqle.cloudfront.net)
 * [Staging](https://d2ee0oicinpx9e.cloudfront.net)
-* [Development](http://localhost:3000/)
+* [Development](http://localhost:3000)
