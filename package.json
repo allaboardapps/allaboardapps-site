@@ -36,5 +36,8 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/wrburgess/js-dev-env.git"
+  },
+  "dependencies": {
+    "gulp-git": "^1.6.0"
   }
 }
