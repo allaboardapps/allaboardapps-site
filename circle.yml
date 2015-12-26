@@ -11,8 +11,10 @@ deployment:
   staging:
     branch: master
     commands:
+    - chmod +x ./deploy_staging.sh
     - ./deploy_staging.sh
   production:
     branch: production
     commands:
+    - chmod +x ./deploy_production.sh
     - ./deploy_production.sh

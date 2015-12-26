@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 gulp build
 gulp dist
 DEFAULT="default"
