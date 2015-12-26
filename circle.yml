@@ -15,6 +15,6 @@ deployment:
     commands:
     - ./deploy_staging.sh
   production:
-    branch: master
+    branch: production
     commands:
     - ./deploy_production.sh

@@ -1,1 +1,5 @@
-s3 sync /dist s3://allaboardapps-site-staging
+DEFAULT="default"
+PROFILE=${AWS_PROFILE:-$DEFAULT}
+BUCKET=allaboardapps-site-staging
+DIR=./dist
+aws s3 sync $DIR s3://$BUCKET/ --profile "$PROFILE"

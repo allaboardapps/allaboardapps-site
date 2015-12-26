@@ -19038,7 +19038,7 @@ var App = _react2.default.createClass({
       _react2.default.createElement(
         'h1',
         null,
-        'All Aboard Apps'
+        'All Aboard Apps, LLC'
       ),
       'Randy Burgess, Dev',
       _react2.default.createElement('br', null),
