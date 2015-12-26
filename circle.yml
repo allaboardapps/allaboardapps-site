@@ -5,7 +5,6 @@ machine:
 dependencies:
   override:
     - sudo pip install awscli
-    - npm install
 
 deployment:
   staging:
