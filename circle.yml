@@ -1,4 +1,6 @@
 machine:
+  python:
+    version: 2.7.10
   node:
     version:  5.1.1
 
@@ -6,6 +8,7 @@ dependencies:
   cache_directories:
     - node_modules
   override:
+    - npm prune && npm install
     - sudo pip install awscli
 
 deployment:
