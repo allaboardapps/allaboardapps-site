@@ -6,4 +6,4 @@ DIR=./dist
 DISTRIBUTION=E3FF3J1WDZ180X
 aws s3 sync $DIR s3://$BUCKET/ --delete
 aws configure set preview.cloudfront true
-aws cloudfront create-invalidation --distribution-id $DISTRIBUTION --paths /index.html
+aws cloudfront create-invalidation --distribution-id E3FF3J1WDZ180X --paths /index.html
