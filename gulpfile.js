@@ -122,6 +122,14 @@ gulp.task('serve', function() {
   });
 });
 
+gulp.task('serve-dist', function() {
+  browserSync.init({
+    server: {
+      baseDir: './dist'
+    }
+  });
+});
+
 // Process JavaScript
 gulp.task('js', function() {
   var bundler = browserify(config.js.srcPath + config.js.srcFile)
