@@ -8,12 +8,7 @@ dependencies:
   cache_directories:
     - node_modules
   override:
-    - npm cache clean -f
-    - npm install -g n
-    - npm install npm -g
-    - npm install -g gulp
     - sudo pip install awscli
-    - gulp deploy
 
 deployment:
   staging:
