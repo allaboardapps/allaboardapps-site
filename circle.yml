@@ -13,7 +13,7 @@ dependencies:
     - npm install npm -g
     - npm install -g gulp
     - sudo pip install awscli
-    - gulp build
+    - gulp deploy
 
 deployment:
   staging:
