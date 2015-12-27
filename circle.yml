@@ -8,7 +8,10 @@ dependencies:
   cache_directories:
     - node_modules
   override:
-    - npm prune && npm install
+    - npm cache clean -f
+    - npm install -g n
+    - n stable
+    - npm install npm -g
     - sudo pip install awscli
 
 deployment:
