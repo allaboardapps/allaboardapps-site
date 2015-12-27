@@ -18,12 +18,20 @@ var minimist = require('minimist');
 var notifier = require('node-notifier');
 var notify = require('gulp-notify');
 var react = require('react');
+var reload = browserSync.reload;
 var rename = require('gulp-rename');
+var RevAll = require('gulp-rev-all');
 var sass = require('gulp-sass');
+var Server = require('karma').Server;
 var source = require('vinyl-source-stream');
 
-var reload = browserSync.reload;
-var RevAll = require('gulp-rev-all');
+gulp.task('test', function (done) {
+  new Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
+});
+
 
 // Configuration
 var config = {
