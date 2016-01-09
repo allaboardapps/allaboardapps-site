@@ -1,5 +1,8 @@
-var expect = require('chai').expect;
+var App = require('../src/js/main');
 var assert = require('chai').assert;
+var expect = require('chai').expect;
+var React = require('react/addons');
+var TestUtils = React.addons.TestUtils;
 
 describe('Array', function() {
   describe('#indexOf()', function () {
@@ -10,3 +13,26 @@ describe('Array', function() {
     });
   });
 });
+
+// describe('App component', function(){
+
+//   before('render and locate element', function() {
+//     var renderedComponent = TestUtils.renderIntoDocument(
+//       <App/>
+//     );
+
+//     // Searching for <input> tag within rendered React component
+//     // Throws an exception if not found
+//     var imageComponent = TestUtils.findRenderedDOMComponentWithTag(
+//       renderedComponent,
+//       'img'
+//     );
+
+//     this.element = imageComponent.getDOMNode();
+//   });
+
+//   it('<img> should have class "what"', function() {
+//     expect(this.element).toHaveClass('whiz');
+//   });
+
+// });

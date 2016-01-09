@@ -10,7 +10,7 @@ dependencies:
   override:
     - sudo pip install awscli
     - npm install
-    - npm install gulp
+    - npm install -g gulp
 
 deployment:
   staging:

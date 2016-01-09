@@ -25,14 +25,6 @@ var sass = require('gulp-sass');
 var Server = require('karma').Server;
 var source = require('vinyl-source-stream');
 
-gulp.task('test', function (done) {
-  new Server({
-    configFile: __dirname + '/karma.conf.js',
-    singleRun: true
-  }, done).start();
-});
-
-
 // Configuration
 var config = {
   build: {
@@ -190,4 +182,11 @@ gulp.task('dist', function () {
     .pipe(revAll.revision())
     .pipe(gulp.dest(config.dist.buildPath))
     notifier.notify({ 'subtitle': 'Distribution Status', 'message': 'Application files revised for caching' });
+});
+
+gulp.task('test', function (done) {
+  new Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
 });

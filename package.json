@@ -29,6 +29,7 @@
     "gulp-s3": "^0.3.0",
     "gulp-sass": "^2.1.0",
     "gulp-util": "^3.0.7",
+    "jsdom": "^7.2.2",
     "karma": "^0.13.16",
     "karma-browserify": "^4.4.2",
     "karma-chrome-launcher": "^0.2.2",
