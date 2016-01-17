@@ -19038,7 +19038,7 @@ var App = _react2.default.createClass({
       _react2.default.createElement(
         'h1',
         null,
-        'All Aboard Apps, LLC'
+        'All Aboard Apps'
       ),
       'Randy Burgess, Developer',
       _react2.default.createElement('br', null),
@@ -19050,7 +19050,7 @@ var App = _react2.default.createClass({
         'randy@allaboardapps.com'
       ),
       _react2.default.createElement('br', null),
-      _react2.default.createElement('img', { src: 'apple-icon.f481372e.png' })
+      _react2.default.createElement('img', { className: 'what', src: 'apple-icon.f481372e.png' })
     );
   }
 });
