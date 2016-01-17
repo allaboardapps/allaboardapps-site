@@ -12,6 +12,9 @@ var App = React.createClass({
           773-551-6808<br/>
           <a href="mailto:randy@allaboardapps.com">randy@allaboardapps.com</a><br/>
         </div>
+        <footer>
+          &copy; All Aboard Apps, LLC. All rights reserved.
+        </footer>
       </div>
     )
   }
