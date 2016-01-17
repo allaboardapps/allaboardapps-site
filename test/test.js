@@ -1,4 +1,3 @@
-var App = require('../src/js/main');
 var assert = require('chai').assert;
 var expect = require('chai').expect;
 var React = require('react/addons');
