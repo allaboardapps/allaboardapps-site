@@ -3680,7 +3680,7 @@ node-gyp@^3.3.1:
     tar "^2.0.0"
     which "1"
 
-node-notifier@^4.1.0:
+node-notifier, node-notifier@^4.1.0:
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/node-notifier/-/node-notifier-4.6.1.tgz#056d14244f3dcc1ceadfe68af9cff0c5473a33f3"
   dependencies:

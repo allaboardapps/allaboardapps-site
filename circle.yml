@@ -23,3 +23,7 @@ deployment:
     commands:
     - chmod +x ./deploy_production.sh
     - ./deploy_production.sh
+
+test:
+  override:
+    - echo "test"

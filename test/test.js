@@ -1,6 +1,8 @@
 var assert = require('chai').assert;
 var expect = require('chai').expect;
-var React = require('react/addons');
+var React = require('react');
+var addons = require('react-addons');
+var classSet = addons.classSet;
 var TestUtils = React.addons.TestUtils;
 
 describe('Array', function() {
