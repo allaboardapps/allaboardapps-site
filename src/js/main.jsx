@@ -6,7 +6,7 @@ var App = React.createClass({
   render() {
     return (
       <div className="app">
-        <img className="company-logo" src="all-aboard-apps-logo.jpg" alt="All Aboard Apps, LLC" />
+        <img className="company-logo" src="all-aboard-apps-logo.png" alt="All Aboard Apps, LLC" />
         <div className="contact-info">
           Randy Burgess, Developer<br/>
           773-551-6808<br/>
